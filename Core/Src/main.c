@@ -104,18 +104,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	   TIM2->CCR1 = PWM_val_1;
-	   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-	   HAL_Delay(1000);
+
+
 	   TIM2->CCR1 = PWM_val_5;
 	   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-	   HAL_Delay(1000);
-	   TIM2->CCR1 = PWM_val_9;
-	   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-	   HAL_Delay(1000);
-	   TIM2->CCR1 = PWM_val_16;
-	   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-	   HAL_Delay(1000);
+	   HAL_Delay(100);
+
+
+
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
