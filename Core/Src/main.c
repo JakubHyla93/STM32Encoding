@@ -112,6 +112,32 @@ int main(void)
 	   HAL_Delay(2000);
 	   TIM2->CCR1 = PWM_val_3;
 	   HAL_Delay(2000);
+	   TIM2->CCR1 = PWM_val_4;
+	   HAL_Delay(2000);
+	   TIM2->CCR1 = PWM_val_5;
+	   HAL_Delay(2000);
+	   TIM2->CCR1 = PWM_val_6;
+	   HAL_Delay(2000);
+	   TIM2->CCR1 = PWM_val_7;
+	   HAL_Delay(2000);
+	   TIM2->CCR1 = PWM_val_8;
+	   HAL_Delay(2000);
+	   TIM2->CCR1 = PWM_val_9;
+	   HAL_Delay(2000);
+	   TIM2->CCR1 = PWM_val_10;
+	   HAL_Delay(2000);
+	   TIM2->CCR1 = PWM_val_11;
+	   HAL_Delay(2000);
+	   TIM2->CCR1 = PWM_val_12;
+	   HAL_Delay(2000);
+	   TIM2->CCR1 = PWM_val_13;
+	   HAL_Delay(2000);
+	   TIM2->CCR1 = PWM_val_14;
+	   HAL_Delay(2000);
+	   TIM2->CCR1 = PWM_val_15;
+	   HAL_Delay(2000);
+	   TIM2->CCR1 = PWM_val_16;
+	   HAL_Delay(2000);
 	 //  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
 	 //  HAL_Delay(100);
 
@@ -199,7 +225,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 319;
+  htim2.Init.Prescaler = 3;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 16;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
