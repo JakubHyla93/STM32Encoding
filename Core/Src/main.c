@@ -106,11 +106,11 @@ int main(void)
   {
 
 
-	   TIM2->CCR1 = PWM_val_1;
+	   TIM2->CCR1 = PWM_val_17;
 	   HAL_Delay(2000);
-	   TIM2->CCR1 = PWM_val_2;
+	   TIM2->CCR1 = PWM_val_18;
 	   HAL_Delay(2000);
-	   TIM2->CCR1 = PWM_val_3;
+	   TIM2->CCR1 = PWM_val_19;
 	   HAL_Delay(2000);
 	   TIM2->CCR1 = PWM_val_4;
 	   HAL_Delay(2000);
@@ -227,7 +227,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 3;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 16;
+  htim2.Init.Period = 22;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)

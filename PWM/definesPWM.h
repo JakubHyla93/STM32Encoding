@@ -24,6 +24,12 @@
 #define PWM_val_14 14
 #define PWM_val_15 15
 #define PWM_val_16 16
+#define PWM_val_17 17
+#define PWM_val_18 18
+#define PWM_val_19 19
+#define PWM_val_20 20
+#define PWM_val_21 21
+#define PWM_val_22 22
 
 
 #endif /* DEFINESPWM_H_ */
