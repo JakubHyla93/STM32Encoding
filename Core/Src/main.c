@@ -60,7 +60,7 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint32_t Duty = 0;
+uint8_t indexVal = 0;
 /* USER CODE END 0 */
 
 /**
@@ -94,10 +94,8 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
 
 
-   TIM2->CCR1 = 5;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -106,40 +104,6 @@ int main(void)
   {
 
 
-	   TIM2->CCR1 = PWM_val_17;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_18;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_19;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_4;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_5;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_6;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_7;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_8;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_9;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_10;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_11;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_12;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_13;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_14;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_15;
-	   HAL_Delay(1);
-	   TIM2->CCR1 = PWM_val_16;
-	   HAL_Delay(1);
-	 //  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-	 //  HAL_Delay(100);
 
 
 
@@ -229,7 +193,7 @@ static void MX_TIM2_Init(void)
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 22;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
   {
     Error_Handler();
@@ -250,14 +214,15 @@ static void MX_TIM2_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = 1;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  sConfigOC.OCFastMode = TIM_OCFAST_ENABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
   {
     Error_Handler();
   }
-  __HAL_TIM_DISABLE_OCxPRELOAD(&htim2, TIM_CHANNEL_1);
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
@@ -325,10 +290,77 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 }
 
 /* USER CODE BEGIN 4 */
+//void HAL_TIM_PWM_PulseFinishedHalfCpltCallback(TIM_HandleTypeDef *htim){
+//	 if(htim->Instance == TIM2){ // Jeżeli przerwanie pochodzi od timera 2
+////		 if(indexVal>=22){
+////			 indexVal=0;
+////		 }
+////		  TIM2->CCR1 = indexVal;
+//	 }
+//}
 
+
+void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim){
+ if(htim->Instance == TIM2){ // Jeżeli przerwanie pochodzi od timera 2
+	 indexVal++;
+	 if(indexVal>19){
+		 indexVal=4;
+		  //HAL_TIM_PWM_Stop_IT(&htim2, TIM_CHANNEL_1);
+	 }
+	  TIM2->CCR1 = indexVal;
+
+	  //HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_1);
+
+ }
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+ if(GPIO_Pin == B1_Pin){
+	  TIM2->CCR1 = PWM_val_10;
+	  indexVal=4;
+	  HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_1);
+
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_18;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_19;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_4;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_5;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_6;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_7;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_8;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_9;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_10;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_11;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_12;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_13;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_14;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_15;
+//		HAL_Delay(1);
+//		TIM2->CCR1 = PWM_val_16;
+//		HAL_Delay(1);
+//		HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+ }
+}
 /* USER CODE END 4 */
 
 /**
